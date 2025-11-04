@@ -4,6 +4,7 @@ import com.web.proyecto.dtos.EmpresaDTO;
 import com.web.proyecto.services.EmpresaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,7 @@ public class EmpresaController {
     @PostMapping
     public ResponseEntity<EmpresaDTO> create(@RequestBody @Valid EmpresaDTO dto) {
         EmpresaDTO created = empresaService.create(dto);
-        return ResponseEntity
-                .created(URI.create("/api/empresas/" + created.getId()))
-                .body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
