@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/activities")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ActivityController {
 
     private final ActivityService activityService;
@@ -20,6 +21,13 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<ActivityDTO> create(@Valid @RequestBody ActivityDTO dto) {
         return ResponseEntity.ok(activityService.create(dto));
+    }
+
+    @PatchMapping("/{id}/position")
+    public ResponseEntity<ActivityDTO> updatePosition(@PathVariable Long id,
+                                                      @RequestBody ActivityDTO dto) {
+        // Usar solo x,y del dto; el service debe hacer merge sin exigir name/processId.
+        return ResponseEntity.ok(activityService.updatePosition(id, dto.getX(), dto.getY()));
     }
 
     // ===== HU-09: editar (con historial) =====

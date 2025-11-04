@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/processes")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProcessController {
 
     private final ProcessService service;

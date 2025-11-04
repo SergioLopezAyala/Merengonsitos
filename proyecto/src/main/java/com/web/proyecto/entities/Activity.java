@@ -34,4 +34,10 @@ public class Activity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "process_id", nullable = false)
     private Process process;
+
+    @Column
+    private Double x;
+    @Column
+    private Double y;
+
 }

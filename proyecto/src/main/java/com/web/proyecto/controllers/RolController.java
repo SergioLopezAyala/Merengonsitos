@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/empresas/{empresaId}/roles")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class RolController {
 
     private final RolService rolService;

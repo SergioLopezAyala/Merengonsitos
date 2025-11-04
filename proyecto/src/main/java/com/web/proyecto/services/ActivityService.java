@@ -34,10 +34,12 @@ public class ActivityService {
                 .roleId(a.getRoleId())
                 .status(a.getStatus())
                 .processId(a.getProcess().getId())
+                .x(a.getX())
+                .y(a.getY())
                 .build();
     }
 
-    private Activity fromDTOForCreate(ActivityDTO dto, Process p) {
+    private Activity toEntity(ActivityDTO dto, Process p) {
         return Activity.builder()
                 .name(dto.getName())
                 .type(dto.getType())
@@ -45,6 +47,8 @@ public class ActivityService {
                 .roleId(dto.getRoleId())
                 .status(dto.getStatus() == null ? "ACTIVE" : dto.getStatus())
                 .process(p)
+                .x(dto.getX())
+                .y(dto.getY())
                 .build();
     }
 
@@ -59,7 +63,7 @@ public class ActivityService {
         Process process = processRepository.findById(dto.getProcessId())
                 .orElseThrow(() -> new IllegalArgumentException("Proceso no encontrado con id=" + dto.getProcessId()));
 
-        Activity activity = fromDTOForCreate(dto, process);
+        Activity activity = toEntity(dto, process);
         Activity saved = activityRepository.save(activity);
 
         return toDTO(saved);
@@ -83,6 +87,9 @@ public class ActivityService {
         if (dto.getDescription() != null) a.setDescription(dto.getDescription());
         if (dto.getRoleId() != null) a.setRoleId(dto.getRoleId());
         if (dto.getStatus() != null) a.setStatus(dto.getStatus());
+        //
+        if (dto.getX()!= null) a.setX(dto.getX());
+        if (dto.getY()!= null) a.setY(dto.getY());
 
         if (dto.getProcessId() != null && !dto.getProcessId().equals(a.getProcess().getId())) {
             Process p = processRepository.findById(dto.getProcessId())
@@ -105,6 +112,7 @@ public class ActivityService {
             activityRepository.save(a);
         }
     }
+
 
     public void softDelete(Long id) {
         Activity a = activityRepository.findById(id)
@@ -166,4 +174,27 @@ public class ActivityService {
 
     private String n(String v) { return v == null ? "" : v; }
     private String s(Object v) { return v == null ? null : String.valueOf(v); }
+
+    public ActivityDTO updatePosition(Long id, Double x, Double y) {
+        Activity a = activityRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Activity no existe: " + id));
+
+        boolean changed = false;
+
+        if (x != null && !Objects.equals(a.getX(), x)) {
+            trackChange(id, "x", s(a.getX()), s(x));
+            a.setX(x);
+            changed = true;
+        }
+        if (y != null && !Objects.equals(a.getY(), y)) {
+            trackChange(id, "y", s(a.getY()), s(y));
+            a.setY(y);
+            changed = true;
+        }
+
+        if (changed) {
+            a = activityRepository.save(a);
+        }
+        return toDTO(a);
+    }
 }

@@ -30,6 +30,6 @@ public class Usuario {
 
     // Relación con Empresa
     @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = false)
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 }

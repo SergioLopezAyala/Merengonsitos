@@ -14,9 +14,8 @@ public class ActivityHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long activityId; // referencia simple a Activity
-
-    private String fieldName; // "name","type","description","roleId","status","processId"
+    private Long activityId;
+    private String fieldName;
 
     @Column(length = 1000)
     private String oldValue;

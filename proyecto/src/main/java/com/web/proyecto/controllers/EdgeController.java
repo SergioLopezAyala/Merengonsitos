@@ -14,7 +14,8 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/api/edges")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class EdgeController {
 
     private final EdgeService service;

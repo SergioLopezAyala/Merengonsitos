@@ -13,16 +13,15 @@ public class ActivityDTO {
 
     @NotBlank(message = "name es obligatorio")
     private String name;
-
     private String type;
     private String description;
+
     @Column(name = "rol_id", nullable = true)
     private Long roleId;
-
-
-    /** String (no enum) */
     private String status;
 
     @NotNull(message = "processId es obligatorio")
     private Long processId;
+    private Double x;
+    private Double y;
 }

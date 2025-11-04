@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/gateways")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class GatewayController {
 
     private final GatewayService service;
